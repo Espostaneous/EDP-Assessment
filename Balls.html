@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bouncing Balls!!</title>
+    <style>
+        h1 {
+            color: green;
+        }
+
+        canvas {
+            background-color: #F08080;
+            width: 850px;
+            height: 450px;
+            position: absolute;
+            top: 20%;
+            left: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>NiggaBALLS</h1>
+        <h3>Bouncing balls using JavaScript</h3>
+        <canvas></canvas>
+    </center>
+
+    <script>
+        var canvas = document.querySelector("canvas");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var ctx = canvas.getContext('2d');
+
+        // Create an array to store multiple balls
+        var balls = [];
+
+        // Add more balls by adjusting the loop count
+        for (var i = 0; i <= 2000; i++) {
+            // Random initial positions and velocities for each ball
+            var x = Math.floor(Math.random() * innerWidth);
+            var y = Math.floor(Math.random() * innerHeight);
+            var vx = Math.floor(Math.random() * 2);
+            var vy = Math.floor(Math.random() * 2);
+            var radius = 20;
+
+            // Push each ball to the array
+            balls.push({ x: x, y: y, vx: vx, vy: vy, radius: radius });
+        }
+
+        move();
+
+        function move() {
+            requestAnimationFrame(move);
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+            // Update and draw each ball
+            balls.forEach(function (ball) {
+                ctx.beginPath();
+                ctx.strokeStyle = "black";
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
+                ctx.stroke();
+
+                // Conditions so that the ball bounces from the edges
+                if (ball.radius + ball.x > innerWidth || ball.x - ball.radius < 0) {
+                    ball.vx = -ball.vx;
+                }
+
+                if (ball.radius + ball.y > innerHeight || ball.y - ball.radius < 0) {
+                    ball.vy = -ball.vy;
+                }
+
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+            });
+        }
+    </script>
+</body>
+
+</html>
